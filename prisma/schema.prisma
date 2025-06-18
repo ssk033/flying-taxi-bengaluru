@@ -20,12 +20,13 @@ model User {
   email         String          @unique
   emailVerified DateTime?
   image         String?
-  droplertId    String         @default(cuid())
   apiKey        String         @default(uuid())
   accounts      Account[]
   sessions      Session[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  promts    Prompt[]
+  recipes   Recipe[]
 }
  
 model Account {
@@ -57,11 +58,42 @@ model Session {
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+} 
+
+model Prompt {
+  id         String    @id @default(uuid())
+  input      String    // What user asked (e.g., "Make me a low-cal pasta")
+  response   String    // AI output
+  createdAt  DateTime  @default(now())
+  recipeId   String?   // Optional: link to a generated Recipe
+  recipe     Recipe?   @relation(fields: [recipeId], references: [id])
+
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
 }
 
-model Recipes{
-  userId            String  @id @default(cuid())
-  quantity          String
-  name              String  @unique
-  ingredient        String  
+model Recipe {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  ingredients Ingredient[]  
+  steps       String
+  cuisine     String?
+  tags        String[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  userId      String
+  user        User          @relation(fields: [userId], references: [id])
+
+  prompts     Prompt[]      
+}
+
+
+model Ingredient {
+  id       String   @id @default(uuid())
+  name     String
+  quantity String
+  recipe   Recipe   @relation(fields: [recipeId], references: [id])
+  recipeId String 
 }
