@@ -4,15 +4,25 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 import { prisma } from "@/lib/db" 
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
-  pages: {
-    signIn: '/auth/sigin',
-    error: '/auth/error',
-  }
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub!
+      }
+      return session
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id
+      }
+      return token
+    },
+  },
 })
+

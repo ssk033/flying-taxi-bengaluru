@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { useSession, signIn, signOut, SessionProvider } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -123,11 +124,11 @@ interface Recipe {
 }
 
 export default function SousChefBot() {
+  const { data: session, status } = useSession() 
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [currentView, setCurrentView] = useState<"chat" | "history" | "recipes">("chat")
-  const [isSignedIn, setIsSignedIn] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   // Mock data
@@ -206,14 +207,30 @@ export default function SousChefBot() {
   }
 
   const handleSignIn = () => {
-    setIsSignedIn(true)
+    signIn("google")
   }
 
   const handleSignOut = () => {
-    setIsSignedIn(false)
+    signOut({ callbackUrl: "/" })
     setMessages([])
     setCurrentView("chat")
   }
+
+  // Show loading state while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+        <div className="text-center">
+          <div className="p-4 bg-amber-600 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+            <ChefHat className="h-8 w-8 text-white animate-pulse" />
+          </div>
+          <p className="text-slate-300">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  const isSignedIn = !!session
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -277,12 +294,19 @@ export default function SousChefBot() {
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="relative h-7 w-7 rounded-full">
                         <Avatar className="h-7 w-7">
-                          <AvatarImage src="/placeholder.svg?height=28&width=28" alt="User" />
-                          <AvatarFallback className="bg-amber-600 text-white text-xs">JD</AvatarFallback>
+                          <AvatarImage src={session.user?.image || ""} alt={session.user?.name || "User"} />
+                          <AvatarFallback className="bg-amber-600 text-white text-xs">
+                            {session.user?.name?.charAt(0) || "U"}
+                          </AvatarFallback>
                         </Avatar>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-56 bg-slate-900 border-slate-800" align="end">
+                      <div className="px-2 py-1.5">
+                        <p className="text-sm font-medium text-white">{session.user?.name}</p>
+                        <p className="text-xs text-slate-400">{session.user?.email}</p>
+                      </div>
+                      <DropdownMenuSeparator className="bg-slate-800" />
                       <DropdownMenuItem className="text-slate-300 hover:text-white hover:bg-slate-800">
                         <User className="mr-2 h-4 w-4" />
                         Profile
@@ -497,7 +521,9 @@ export default function SousChefBot() {
               <>
                 {/* Header */}
                 <div className="text-center mb-8">
-                  <h2 className="text-2xl font-bold text-white mb-2">Kitchen Assistant</h2>
+                  <h2 className="text-2xl font-bold text-white mb-2">
+                    Welcome back, {session.user?.name?.split(" ")[0]}!
+                  </h2>
                   <p className="text-slate-300 max-w-2xl mx-auto leading-relaxed">
                     Ask me about recipes, techniques, scaling, timing, and any culinary questions.
                   </p>
