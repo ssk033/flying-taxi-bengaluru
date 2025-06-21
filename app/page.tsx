@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { generateGeminiResponse } from "@/gemini/geminiConfig"
 import { useSession, signIn, signOut, SessionProvider } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -174,7 +175,7 @@ export default function SousChefBot() {
     },
   ]
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!input.trim()) return
 
@@ -189,17 +190,26 @@ export default function SousChefBot() {
     setInput("")
     setIsLoading(true)
 
-    setTimeout(() => {
+    try {
+      const aiContent = await generateGeminiResponse(userMessage.content)
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content:
-          "I'm ready to help with your cooking questions! This is a frontend demo - connect to your AI backend to get real responses.",
+        content: aiContent,
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, aiMessage])
+    } catch (err) {
+      const aiMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: "assistant",
+        content: "Sorry, I couldn't get a response from the AI.",
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, aiMessage])
+    } finally {
       setIsLoading(false)
-    }, 1500)
+    }
   }
 
   const handleQuickPrompt = (prompt: string) => {
@@ -209,7 +219,8 @@ export default function SousChefBot() {
   const handleSignIn = () => {
     signIn("google")
   }
-
+   
+  
   const handleSignOut = () => {
     signOut({ callbackUrl: "/" })
     setMessages([])
@@ -671,31 +682,6 @@ export default function SousChefBot() {
               </div>
             )}
 
-            {currentView === "recipes" && (
-              <div>
-                <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-white mb-2">Saved Recipes</h2>
-                  <p className="text-slate-300">Your collection of recipes and techniques</p>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {savedRecipes.map((recipe) => (
-                    <Card
-                      key={recipe.id}
-                      className="bg-slate-900 border-slate-800 hover:border-amber-500 cursor-pointer transition-colors"
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-start justify-between mb-3">
-                          <BookOpen className="h-5 w-5 text-amber-400 mt-1" />
-                          <p className="text-xs text-slate-500">{recipe.timestamp.toLocaleDateString()}</p>
-                        </div>
-                        <h3 className="font-medium text-white mb-2">{recipe.title}</h3>
-                        <p className="text-sm text-slate-400">{recipe.description}</p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            )}
           </>
         )}
 
