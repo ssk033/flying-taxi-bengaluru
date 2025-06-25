@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState } from "react"
-import { generateGeminiResponse } from "@/gemini/geminiConfig"
 import { useSession, signIn, signOut, SessionProvider } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -124,6 +123,16 @@ interface Recipe {
   timestamp: Date
 }
 
+async function getGeminiResponse(prompt: string){
+  const res = await fetch("/api/gemini", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt }),
+  })
+  const data = await res.json()
+  return data.text
+}
+
 export default function SousChefBot() {
   const { data: session, status } = useSession() 
   const [messages, setMessages] = useState<Message[]>([])
@@ -191,7 +200,7 @@ export default function SousChefBot() {
     setIsLoading(true)
 
     try {
-      const aiContent = await generateGeminiResponse(userMessage.content)
+      const aiContent = await getGeminiResponse(userMessage.content)
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
