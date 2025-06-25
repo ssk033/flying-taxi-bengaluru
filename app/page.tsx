@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useSession, signIn, signOut, SessionProvider } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -140,49 +140,54 @@ export default function SousChefBot() {
   const [isLoading, setIsLoading] = useState(false)
   const [currentView, setCurrentView] = useState<"chat" | "history" | "recipes">("chat")
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [history, setHistory] = useState<any[]>([])
 
-  // Mock data
-  const chatHistory: ChatHistory[] = [
-    {
-      id: "1",
-      title: "Scaling Beef Wellington",
-      lastMessage: "Thanks for the scaling help!",
-      timestamp: new Date(2024, 0, 15),
-    },
-    {
-      id: "2",
-      title: "Sauce Troubleshooting",
-      lastMessage: "The emulsion technique worked perfectly",
-      timestamp: new Date(2024, 0, 14),
-    },
-    {
-      id: "3",
-      title: "Prep Timeline for Banquet",
-      lastMessage: "Great timing breakdown",
-      timestamp: new Date(2024, 0, 13),
-    },
-  ]
+  const isSignedIn = !!session
 
-  const savedRecipes: Recipe[] = [
-    {
-      id: "1",
-      title: "Perfect Hollandaise",
-      description: "Foolproof technique for consistent results",
-      timestamp: new Date(2024, 0, 15),
-    },
-    {
-      id: "2",
-      title: "Beef Stock (Large Batch)",
-      description: "Restaurant-quality stock recipe",
-      timestamp: new Date(2024, 0, 14),
-    },
-    {
-      id: "3",
-      title: "Mise en Place Checklist",
-      description: "Complete prep organization system",
-      timestamp: new Date(2024, 0, 13),
-    },
-  ]
+  // Fetch chat history when user signs in or switches to history view
+  useEffect(() => {
+    if (isSignedIn && currentView === "history") {
+      fetch("/api/chat")
+        .then(res => res.json())
+        .then(data => setHistory(data))
+        .catch(() => setHistory([]))
+    }
+  }, [isSignedIn, currentView])
+
+  // Save chat to DB after each conversation (when a new assistant message is added)
+  useEffect(() => {
+    if (
+      isSignedIn &&
+      messages.length > 1 &&
+      messages[messages.length - 1].role === "assistant"
+    ) {
+      const title = messages[0]?.content?.slice(0, 40) || "Chat";
+      fetch("/api/chat/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          messages,
+        }),
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSignedIn, messages.length, messages[messages.length - 1]?.role]);
+
+  // Handler functions
+  const handleSignIn = () => {
+    signIn("google")
+  }
+
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/" })
+    setMessages([])
+    setCurrentView("chat")
+  }
+
+  const handleQuickPrompt = (prompt: string) => {
+    setInput(prompt)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -221,21 +226,6 @@ export default function SousChefBot() {
     }
   }
 
-  const handleQuickPrompt = (prompt: string) => {
-    setInput(prompt)
-  }
-
-  const handleSignIn = () => {
-    signIn("google")
-  }
-   
-  
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/" })
-    setMessages([])
-    setCurrentView("chat")
-  }
-
   // Show loading state while checking authentication
   if (status === "loading") {
     return (
@@ -249,8 +239,6 @@ export default function SousChefBot() {
       </div>
     )
   }
-
-  const isSignedIn = !!session
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -300,21 +288,12 @@ export default function SousChefBot() {
                     <History className="h-3 w-3 mr-1.5" />
                     History
                   </Button>
-                  <Button
-                    variant={currentView === "recipes" ? "secondary" : "ghost"}
-                    size="sm"
-                    onClick={() => setCurrentView("recipes")}
-                    className="text-slate-300 hover:text-white h-8 text-xs"
-                  >
-                    <BookOpen className="h-3 w-3 mr-1.5" />
-                    Recipes
-                  </Button>
 
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="relative h-7 w-7 rounded-full">
                         <Avatar className="h-7 w-7">
-                          <AvatarImage src={session.user?.image || ""} alt={session.user?.name || "User"} />
+                          <AvatarImage src={session.user?.image || ""}  />
                           <AvatarFallback className="bg-amber-600 text-white text-xs">
                             {session.user?.name?.charAt(0) || "U"}
                           </AvatarFallback>
@@ -326,15 +305,6 @@ export default function SousChefBot() {
                         <p className="text-sm font-medium text-white">{session.user?.name}</p>
                         <p className="text-xs text-slate-400">{session.user?.email}</p>
                       </div>
-                      <DropdownMenuSeparator className="bg-slate-800" />
-                      <DropdownMenuItem className="text-slate-300 hover:text-white hover:bg-slate-800">
-                        <User className="mr-2 h-4 w-4" />
-                        Profile
-                      </DropdownMenuItem>
-                      <DropdownMenuItem className="text-slate-300 hover:text-white hover:bg-slate-800">
-                        <Settings className="mr-2 h-4 w-4" />
-                        Settings
-                      </DropdownMenuItem>
                       <DropdownMenuSeparator className="bg-slate-800" />
                       <DropdownMenuItem
                         onClick={handleSignOut}
@@ -670,23 +640,31 @@ export default function SousChefBot() {
                   <p className="text-slate-300">Review your previous conversations</p>
                 </div>
                 <div className="space-y-3">
-                  {chatHistory.map((chat) => (
-                    <Card
-                      key={chat.id}
-                      className="bg-slate-900 border-slate-800 hover:border-amber-500 cursor-pointer transition-colors"
-                    >
-                      <CardContent className="p-4">
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <h3 className="font-medium text-white mb-1">{chat.title}</h3>
-                            <p className="text-sm text-slate-400 mb-2">{chat.lastMessage}</p>
-                            <p className="text-xs text-slate-500">{chat.timestamp.toLocaleDateString()}</p>
+                  {history.length === 0 ? (
+                    <p className="text-slate-400">No chat history found.</p>
+                  ) : (
+                    history.map((chat: any) => (
+                      <Card
+                        key={chat.id}
+                        className="bg-slate-900 border-slate-800 hover:border-amber-500 cursor-pointer transition-colors"
+                      >
+                        <CardContent className="p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h3 className="font-medium text-white mb-1">{chat.title}</h3>
+                              <p className="text-sm text-slate-400 mb-2">
+                                {chat.messages?.[chat.messages.length - 1]?.content || ""}
+                              </p>
+                              <p className="text-xs text-slate-500">
+                                {new Date(chat.updatedAt || chat.timestamp).toLocaleDateString()}
+                              </p>
+                            </div>
+                            <MessageCircle className="h-5 w-5 text-amber-400" />
                           </div>
-                          <MessageCircle className="h-5 w-5 text-amber-400" />
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    ))
+                  )}
                 </div>
               </div>
             )}
