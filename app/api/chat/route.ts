@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/auth/auth"; // use your auth helper
+import { chat } from "@/app/types/chat";
 
 export async function GET(req: NextRequest) {
   const session = await auth();
