@@ -1,9 +1,10 @@
 "use client"
 
 import type React from "react"
+import type {Chat, Message as ChatMessage } from "@/lib/generated/prisma"
 
 import { useState, useEffect } from "react"
-import { useSession, signIn, signOut, SessionProvider } from "next-auth/react"
+import { useSession, signIn, signOut } from "next-auth/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -42,9 +43,9 @@ import {
 
 const quickPrompts = [
   { icon: Scale, text: "Scale this recipe for 50 people", category: "Scaling" },
-  { icon: Clock, text: "What's the best timing for a 5-course meal?", category: "Timing" },
-  { icon: Thermometer, text: "Internal temps for different proteins", category: "Safety" },
-  { icon: Users, text: "Substitute for heavy cream in this sauce", category: "Substitution" },
+  { icon: Clock, text: "Best timing for a 5-course meal?", category: "Timing" },
+  { icon: Thermometer, text: "Safe internal temps for proteins", category: "Safety" },
+  { icon: Users, text: "Substitute for heavy cream in sauce", category: "Substitution" },
 ]
 
 const features = [
@@ -133,14 +134,17 @@ async function getGeminiResponse(prompt: string){
   return data.text
 }
 
+// Use Chat and ChatMessage in your types:
+type ChatWithMessages = Chat & { messages: ChatMessage[] }
+
 export default function SousChefBot() {
-  const { data: session, status } = useSession() 
+  const { data: session, status } = useSession()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [currentView, setCurrentView] = useState<"chat" | "history" | "recipes">("chat")
   const [sidebarOpen, setSidebarOpen] = useState(false)
-  const [history, setHistory] = useState<any[]>([])
+  const [history, setHistory] = useState<ChatWithMessages[]>([])
 
   const isSignedIn = !!session
 
@@ -149,7 +153,7 @@ export default function SousChefBot() {
     if (isSignedIn && currentView === "history") {
       fetch("/api/chat")
         .then(res => res.json())
-        .then(data => setHistory(data))
+        .then(data => setHistory(Array.isArray(data) ? data : []))
         .catch(() => setHistory([]))
     }
   }, [isSignedIn, currentView])
@@ -159,9 +163,9 @@ export default function SousChefBot() {
     if (
       isSignedIn &&
       messages.length > 1 &&
-      messages[messages.length - 1].role === "assistant"
+      messages[messages.length - 1]?.role === "assistant"
     ) {
-      const title = messages[0]?.content?.slice(0, 40) || "Chat";
+      const title = messages[0]?.content?.slice(0, 40) || "Chat"
       fetch("/api/chat/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -169,10 +173,10 @@ export default function SousChefBot() {
           title,
           messages,
         }),
-      });
+      })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSignedIn, messages.length, messages[messages.length - 1]?.role]);
+  }, [isSignedIn, messages.length, messages[messages.length - 1]?.role])
 
   // Handler functions
   const handleSignIn = () => {
@@ -217,7 +221,7 @@ export default function SousChefBot() {
       const aiMessage: Message = {
         id: (Date.now() + 1).toString(),
         role: "assistant",
-        content: "Sorry, I couldn't get a response from the AI.",
+        content: "Sorry, I couldn't get a response from the assistant.",
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, aiMessage])
@@ -333,42 +337,44 @@ export default function SousChefBot() {
             <div className="md:hidden py-3 border-t border-slate-800">
               {isSignedIn ? (
                 <div className="space-y-1">
-                  <Button
-                    variant={currentView === "chat" ? "secondary" : "ghost"}
-                    size="sm"
-                    onClick={() => {
-                      setCurrentView("chat")
-                      setSidebarOpen(false)
-                    }}
-                    className="w-full justify-start text-slate-300 hover:text-white h-8"
-                  >
-                    <MessageCircle className="h-4 w-4 mr-2" />
-                    Chat
-                  </Button>
-                  <Button
-                    variant={currentView === "history" ? "secondary" : "ghost"}
-                    size="sm"
-                    onClick={() => {
-                      setCurrentView("history")
-                      setSidebarOpen(false)
-                    }}
-                    className="w-full justify-start text-slate-300 hover:text-white h-8"
-                  >
-                    <History className="h-4 w-4 mr-2" />
-                    History
-                  </Button>
-                  <Button
-                    variant={currentView === "recipes" ? "secondary" : "ghost"}
-                    size="sm"
-                    onClick={() => {
-                      setCurrentView("recipes")
-                      setSidebarOpen(false)
-                    }}
-                    className="w-full justify-start text-slate-300 hover:text-white h-8"
-                  >
-                    <BookOpen className="h-4 w-4 mr-2" />
-                    Recipes
-                  </Button>
+                  <div className="space-y-1">
+                    <Button
+                      variant={currentView === "chat" ? "secondary" : "ghost"}
+                      size="sm"
+                      onClick={() => {
+                        setCurrentView("chat")
+                        setSidebarOpen(false)
+                      }}
+                      className="w-full justify-start text-slate-300 hover:text-white h-8"
+                    >
+                      <MessageCircle className="h-4 w-4 mr-2" />
+                      Chat
+                    </Button>
+                    <Button
+                      variant={currentView === "history" ? "secondary" : "ghost"}
+                      size="sm"
+                      onClick={() => {
+                        setCurrentView("history")
+                        setSidebarOpen(false)
+                      }}
+                      className="w-full justify-start text-slate-300 hover:text-white h-8"
+                    >
+                      <History className="h-4 w-4 mr-2" />
+                      History
+                    </Button>
+                    <Button
+                      variant={currentView === "recipes" ? "secondary" : "ghost"}
+                      size="sm"
+                      onClick={() => {
+                        setCurrentView("recipes")
+                        setSidebarOpen(false)
+                      }}
+                      className="w-full justify-start text-slate-300 hover:text-white h-8"
+                    >
+                      <BookOpen className="h-4 w-4 mr-2" />
+                      Recipes
+                    </Button>
+                  </div>
                   <div className="border-t border-slate-800 pt-2 mt-2">
                     <Button
                       variant="ghost"
@@ -402,10 +408,8 @@ export default function SousChefBot() {
           )}
         </div>
       </nav>
-
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         {!isSignedIn ? (
-          /* Landing Page */
           <div>
             {/* Hero Section */}
             <div className="text-center py-12 mb-16">
@@ -426,7 +430,6 @@ export default function SousChefBot() {
                 </Button>
               </div>
             </div>
-
             {/* Features Section */}
             <div className="mb-16">
               <div className="text-center mb-12">
@@ -450,7 +453,6 @@ export default function SousChefBot() {
                 ))}
               </div>
             </div>
-
             {/* Testimonials Section */}
             <div className="mb-16">
               <div className="text-center mb-12">
@@ -478,7 +480,6 @@ export default function SousChefBot() {
                 ))}
               </div>
             </div>
-
             {/* CTA Section */}
             <div className="text-center py-12 bg-slate-900 rounded-lg border border-slate-800">
               <h3 className="text-2xl font-bold text-white mb-4">Ready to Transform Your Kitchen?</h3>
@@ -518,7 +519,6 @@ export default function SousChefBot() {
                     Ask me about recipes, techniques, scaling, timing, and any culinary questions.
                   </p>
                 </div>
-
                 {/* Quick Prompts */}
                 {messages.length === 0 && (
                   <div className="mb-8">
@@ -553,7 +553,6 @@ export default function SousChefBot() {
                     </div>
                   </div>
                 )}
-
                 {/* Chat Interface */}
                 <Card className="shadow-lg bg-slate-900 border-slate-800">
                   <CardHeader className="bg-slate-900 border-b border-slate-800">
@@ -608,7 +607,6 @@ export default function SousChefBot() {
                         </div>
                       )}
                     </ScrollArea>
-
                     {/* Input Form */}
                     <div className="border-t border-slate-800 p-4 bg-slate-900">
                       <form onSubmit={handleSubmit} className="flex gap-3">
@@ -632,7 +630,6 @@ export default function SousChefBot() {
                 </Card>
               </>
             )}
-
             {currentView === "history" && (
               <div>
                 <div className="mb-6">
@@ -643,7 +640,7 @@ export default function SousChefBot() {
                   {history.length === 0 ? (
                     <p className="text-slate-400">No chat history found.</p>
                   ) : (
-                    history.map((chat: any) => (
+                    history.map((chat) => (
                       <Card
                         key={chat.id}
                         className="bg-slate-900 border-slate-800 hover:border-amber-500 cursor-pointer transition-colors"
@@ -656,7 +653,7 @@ export default function SousChefBot() {
                                 {chat.messages?.[chat.messages.length - 1]?.content || ""}
                               </p>
                               <p className="text-xs text-slate-500">
-                                {new Date(chat.updatedAt || chat.timestamp).toLocaleDateString()}
+                                {new Date(chat.updatedAt ?? Date.now()).toLocaleDateString()}
                               </p>
                             </div>
                             <MessageCircle className="h-5 w-5 text-amber-400" />
@@ -668,14 +665,12 @@ export default function SousChefBot() {
                 </div>
               </div>
             )}
-
           </>
         )}
-
         {/* Footer */}
         <div className="text-center mt-12">
           <p className="text-xs text-slate-500">
-            Professional kitchen assistant • Always verify food safety guidelines
+            Professional kitchen assistant &bull; Always verify food safety guidelines
           </p>
         </div>
       </div>

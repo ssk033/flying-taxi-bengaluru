@@ -118,3 +118,4 @@ model Message {
 
   chat Chat @relation(fields: [chatId], references: [id])
 }
+
