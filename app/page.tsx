@@ -425,9 +425,6 @@ export default function SousChefBot() {
                 <Button onClick={handleSignIn} size="lg" className="bg-amber-600 hover:bg-amber-700 text-white">
                   Get Started - Sign In
                 </Button>
-                <Button variant="outline" size="lg" className="border-slate-700 text-slate-300 hover:bg-slate-800">
-                  Learn More
-                </Button>
               </div>
             </div>
             {/* Features Section */}
@@ -653,8 +650,9 @@ export default function SousChefBot() {
                                 {chat.messages?.[chat.messages.length - 1]?.content || ""}
                               </p>
                               <p className="text-xs text-slate-500">
-                                {new Date(chat.updatedAt ?? Date.now()).toLocaleDateString()}
+                                  {new Date(chat.updatedAt ?? Date.now()).toLocaleDateString()}
                               </p>
+
                             </div>
                             <MessageCircle className="h-5 w-5 text-amber-400" />
                           </div>
