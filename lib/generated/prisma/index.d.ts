@@ -1508,17 +1508,17 @@ export namespace Prisma {
   export type UserCountOutputType = {
     accounts: number
     sessions: number
-    promts: number
+    prompts: number
     recipes: number
-    Chat: number
+    chats: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     sessions?: boolean | UserCountOutputTypeCountSessionsArgs
-    promts?: boolean | UserCountOutputTypeCountPromtsArgs
+    prompts?: boolean | UserCountOutputTypeCountPromptsArgs
     recipes?: boolean | UserCountOutputTypeCountRecipesArgs
-    Chat?: boolean | UserCountOutputTypeCountChatArgs
+    chats?: boolean | UserCountOutputTypeCountChatsArgs
   }
 
   // Custom InputTypes
@@ -1549,7 +1549,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountPromtsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountPromptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PromptWhereInput
   }
 
@@ -1563,7 +1563,7 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountChatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountChatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatWhereInput
   }
 
@@ -1833,9 +1833,9 @@ export namespace Prisma {
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
-    promts?: boolean | User$promtsArgs<ExtArgs>
+    prompts?: boolean | User$promptsArgs<ExtArgs>
     recipes?: boolean | User$recipesArgs<ExtArgs>
-    Chat?: boolean | User$ChatArgs<ExtArgs>
+    chats?: boolean | User$chatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1876,9 +1876,9 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
-    promts?: boolean | User$promtsArgs<ExtArgs>
+    prompts?: boolean | User$promptsArgs<ExtArgs>
     recipes?: boolean | User$recipesArgs<ExtArgs>
-    Chat?: boolean | User$ChatArgs<ExtArgs>
+    chats?: boolean | User$chatsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1889,9 +1889,9 @@ export namespace Prisma {
     objects: {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
-      promts: Prisma.$PromptPayload<ExtArgs>[]
+      prompts: Prisma.$PromptPayload<ExtArgs>[]
       recipes: Prisma.$RecipePayload<ExtArgs>[]
-      Chat: Prisma.$ChatPayload<ExtArgs>[]
+      chats: Prisma.$ChatPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2298,9 +2298,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    promts<T extends User$promtsArgs<ExtArgs> = {}>(args?: Subset<T, User$promtsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    prompts<T extends User$promptsArgs<ExtArgs> = {}>(args?: Subset<T, User$promptsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PromptPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     recipes<T extends User$recipesArgs<ExtArgs> = {}>(args?: Subset<T, User$recipesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecipePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    Chat<T extends User$ChatArgs<ExtArgs> = {}>(args?: Subset<T, User$ChatArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    chats<T extends User$chatsArgs<ExtArgs> = {}>(args?: Subset<T, User$chatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2774,9 +2774,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.promts
+   * User.prompts
    */
-  export type User$promtsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$promptsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Prompt
      */
@@ -2822,9 +2822,9 @@ export namespace Prisma {
   }
 
   /**
-   * User.Chat
+   * User.chats
    */
-  export type User$ChatArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$chatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Chat
      */
@@ -10790,9 +10790,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    promts?: PromptListRelationFilter
+    prompts?: PromptListRelationFilter
     recipes?: RecipeListRelationFilter
-    Chat?: ChatListRelationFilter
+    chats?: ChatListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -10806,9 +10806,9 @@ export namespace Prisma {
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
-    promts?: PromptOrderByRelationAggregateInput
+    prompts?: PromptOrderByRelationAggregateInput
     recipes?: RecipeOrderByRelationAggregateInput
-    Chat?: ChatOrderByRelationAggregateInput
+    chats?: ChatOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -10825,9 +10825,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
-    promts?: PromptListRelationFilter
+    prompts?: PromptListRelationFilter
     recipes?: RecipeListRelationFilter
-    Chat?: ChatListRelationFilter
+    chats?: ChatListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11329,9 +11329,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    promts?: PromptCreateNestedManyWithoutUserInput
+    prompts?: PromptCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
-    Chat?: ChatCreateNestedManyWithoutUserInput
+    chats?: ChatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11345,9 +11345,9 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    promts?: PromptUncheckedCreateNestedManyWithoutUserInput
+    prompts?: PromptUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
-    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    chats?: ChatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -11361,9 +11361,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    promts?: PromptUpdateManyWithoutUserNestedInput
+    prompts?: PromptUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
-    Chat?: ChatUpdateManyWithoutUserNestedInput
+    chats?: ChatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11377,9 +11377,9 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    promts?: PromptUncheckedUpdateManyWithoutUserNestedInput
+    prompts?: PromptUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
-    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    chats?: ChatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11587,7 +11587,7 @@ export namespace Prisma {
     response: string
     createdAt?: Date | string
     recipe?: RecipeCreateNestedOneWithoutPromptsInput
-    user: UserCreateNestedOneWithoutPromtsInput
+    user: UserCreateNestedOneWithoutPromptsInput
   }
 
   export type PromptUncheckedCreateInput = {
@@ -11605,7 +11605,7 @@ export namespace Prisma {
     response?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     recipe?: RecipeUpdateOneWithoutPromptsNestedInput
-    user?: UserUpdateOneRequiredWithoutPromtsNestedInput
+    user?: UserUpdateOneRequiredWithoutPromptsNestedInput
   }
 
   export type PromptUncheckedUpdateInput = {
@@ -11787,7 +11787,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     messages?: MessageCreateNestedManyWithoutChatInput
-    user: UserCreateNestedOneWithoutChatInput
+    user: UserCreateNestedOneWithoutChatsInput
   }
 
   export type ChatUncheckedCreateInput = {
@@ -11805,7 +11805,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     messages?: MessageUpdateManyWithoutChatNestedInput
-    user?: UserUpdateOneRequiredWithoutChatNestedInput
+    user?: UserUpdateOneRequiredWithoutChatsNestedInput
   }
 
   export type ChatUncheckedUpdateInput = {
@@ -12657,9 +12657,9 @@ export namespace Prisma {
     connect?: RecipeWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutPromtsInput = {
-    create?: XOR<UserCreateWithoutPromtsInput, UserUncheckedCreateWithoutPromtsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPromtsInput
+  export type UserCreateNestedOneWithoutPromptsInput = {
+    create?: XOR<UserCreateWithoutPromptsInput, UserUncheckedCreateWithoutPromptsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPromptsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -12673,12 +12673,12 @@ export namespace Prisma {
     update?: XOR<XOR<RecipeUpdateToOneWithWhereWithoutPromptsInput, RecipeUpdateWithoutPromptsInput>, RecipeUncheckedUpdateWithoutPromptsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutPromtsNestedInput = {
-    create?: XOR<UserCreateWithoutPromtsInput, UserUncheckedCreateWithoutPromtsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutPromtsInput
-    upsert?: UserUpsertWithoutPromtsInput
+  export type UserUpdateOneRequiredWithoutPromptsNestedInput = {
+    create?: XOR<UserCreateWithoutPromptsInput, UserUncheckedCreateWithoutPromptsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPromptsInput
+    upsert?: UserUpsertWithoutPromptsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPromtsInput, UserUpdateWithoutPromtsInput>, UserUncheckedUpdateWithoutPromtsInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPromptsInput, UserUpdateWithoutPromptsInput>, UserUncheckedUpdateWithoutPromptsInput>
   }
 
   export type RecipeCreatetagsInput = {
@@ -12809,9 +12809,9 @@ export namespace Prisma {
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
   }
 
-  export type UserCreateNestedOneWithoutChatInput = {
-    create?: XOR<UserCreateWithoutChatInput, UserUncheckedCreateWithoutChatInput>
-    connectOrCreate?: UserCreateOrConnectWithoutChatInput
+  export type UserCreateNestedOneWithoutChatsInput = {
+    create?: XOR<UserCreateWithoutChatsInput, UserUncheckedCreateWithoutChatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChatsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -12836,12 +12836,12 @@ export namespace Prisma {
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
   }
 
-  export type UserUpdateOneRequiredWithoutChatNestedInput = {
-    create?: XOR<UserCreateWithoutChatInput, UserUncheckedCreateWithoutChatInput>
-    connectOrCreate?: UserCreateOrConnectWithoutChatInput
-    upsert?: UserUpsertWithoutChatInput
+  export type UserUpdateOneRequiredWithoutChatsNestedInput = {
+    create?: XOR<UserCreateWithoutChatsInput, UserUncheckedCreateWithoutChatsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutChatsInput
+    upsert?: UserUpsertWithoutChatsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChatInput, UserUpdateWithoutChatInput>, UserUncheckedUpdateWithoutChatInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutChatsInput, UserUpdateWithoutChatsInput>, UserUncheckedUpdateWithoutChatsInput>
   }
 
   export type MessageUncheckedUpdateManyWithoutChatNestedInput = {
@@ -13343,9 +13343,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
-    promts?: PromptCreateNestedManyWithoutUserInput
+    prompts?: PromptCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
-    Chat?: ChatCreateNestedManyWithoutUserInput
+    chats?: ChatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -13358,9 +13358,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    promts?: PromptUncheckedCreateNestedManyWithoutUserInput
+    prompts?: PromptUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
-    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    chats?: ChatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -13389,9 +13389,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    promts?: PromptUpdateManyWithoutUserNestedInput
+    prompts?: PromptUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
-    Chat?: ChatUpdateManyWithoutUserNestedInput
+    chats?: ChatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -13404,9 +13404,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    promts?: PromptUncheckedUpdateManyWithoutUserNestedInput
+    prompts?: PromptUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
-    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    chats?: ChatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -13419,9 +13419,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
-    promts?: PromptCreateNestedManyWithoutUserInput
+    prompts?: PromptCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
-    Chat?: ChatCreateNestedManyWithoutUserInput
+    chats?: ChatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -13434,9 +13434,9 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    promts?: PromptUncheckedCreateNestedManyWithoutUserInput
+    prompts?: PromptUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
-    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    chats?: ChatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -13465,9 +13465,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
-    promts?: PromptUpdateManyWithoutUserNestedInput
+    prompts?: PromptUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
-    Chat?: ChatUpdateManyWithoutUserNestedInput
+    chats?: ChatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -13480,9 +13480,9 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
-    promts?: PromptUncheckedUpdateManyWithoutUserNestedInput
+    prompts?: PromptUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
-    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    chats?: ChatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RecipeCreateWithoutPromptsInput = {
@@ -13516,7 +13516,7 @@ export namespace Prisma {
     create: XOR<RecipeCreateWithoutPromptsInput, RecipeUncheckedCreateWithoutPromptsInput>
   }
 
-  export type UserCreateWithoutPromtsInput = {
+  export type UserCreateWithoutPromptsInput = {
     id?: string
     name?: string | null
     email: string
@@ -13528,10 +13528,10 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
-    Chat?: ChatCreateNestedManyWithoutUserInput
+    chats?: ChatCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutPromtsInput = {
+  export type UserUncheckedCreateWithoutPromptsInput = {
     id?: string
     name?: string | null
     email: string
@@ -13543,12 +13543,12 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
-    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    chats?: ChatUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutPromtsInput = {
+  export type UserCreateOrConnectWithoutPromptsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutPromtsInput, UserUncheckedCreateWithoutPromtsInput>
+    create: XOR<UserCreateWithoutPromptsInput, UserUncheckedCreateWithoutPromptsInput>
   }
 
   export type RecipeUpsertWithoutPromptsInput = {
@@ -13588,18 +13588,18 @@ export namespace Prisma {
     ingredients?: IngredientUncheckedUpdateManyWithoutRecipeNestedInput
   }
 
-  export type UserUpsertWithoutPromtsInput = {
-    update: XOR<UserUpdateWithoutPromtsInput, UserUncheckedUpdateWithoutPromtsInput>
-    create: XOR<UserCreateWithoutPromtsInput, UserUncheckedCreateWithoutPromtsInput>
+  export type UserUpsertWithoutPromptsInput = {
+    update: XOR<UserUpdateWithoutPromptsInput, UserUncheckedUpdateWithoutPromptsInput>
+    create: XOR<UserCreateWithoutPromptsInput, UserUncheckedCreateWithoutPromptsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutPromtsInput = {
+  export type UserUpdateToOneWithWhereWithoutPromptsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutPromtsInput, UserUncheckedUpdateWithoutPromtsInput>
+    data: XOR<UserUpdateWithoutPromptsInput, UserUncheckedUpdateWithoutPromptsInput>
   }
 
-  export type UserUpdateWithoutPromtsInput = {
+  export type UserUpdateWithoutPromptsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -13611,10 +13611,10 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
-    Chat?: ChatUpdateManyWithoutUserNestedInput
+    chats?: ChatUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutPromtsInput = {
+  export type UserUncheckedUpdateWithoutPromptsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -13626,7 +13626,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
-    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    chats?: ChatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type IngredientCreateWithoutRecipeInput = {
@@ -13662,8 +13662,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    promts?: PromptCreateNestedManyWithoutUserInput
-    Chat?: ChatCreateNestedManyWithoutUserInput
+    prompts?: PromptCreateNestedManyWithoutUserInput
+    chats?: ChatCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRecipesInput = {
@@ -13677,8 +13677,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    promts?: PromptUncheckedCreateNestedManyWithoutUserInput
-    Chat?: ChatUncheckedCreateNestedManyWithoutUserInput
+    prompts?: PromptUncheckedCreateNestedManyWithoutUserInput
+    chats?: ChatUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRecipesInput = {
@@ -13691,7 +13691,7 @@ export namespace Prisma {
     input: string
     response: string
     createdAt?: Date | string
-    user: UserCreateNestedOneWithoutPromtsInput
+    user: UserCreateNestedOneWithoutPromptsInput
   }
 
   export type PromptUncheckedCreateWithoutRecipeInput = {
@@ -13760,8 +13760,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    promts?: PromptUpdateManyWithoutUserNestedInput
-    Chat?: ChatUpdateManyWithoutUserNestedInput
+    prompts?: PromptUpdateManyWithoutUserNestedInput
+    chats?: ChatUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRecipesInput = {
@@ -13775,8 +13775,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    promts?: PromptUncheckedUpdateManyWithoutUserNestedInput
-    Chat?: ChatUncheckedUpdateManyWithoutUserNestedInput
+    prompts?: PromptUncheckedUpdateManyWithoutUserNestedInput
+    chats?: ChatUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PromptUpsertWithWhereUniqueWithoutRecipeInput = {
@@ -13887,7 +13887,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type UserCreateWithoutChatInput = {
+  export type UserCreateWithoutChatsInput = {
     id?: string
     name?: string | null
     email: string
@@ -13898,11 +13898,11 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
-    promts?: PromptCreateNestedManyWithoutUserInput
+    prompts?: PromptCreateNestedManyWithoutUserInput
     recipes?: RecipeCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutChatInput = {
+  export type UserUncheckedCreateWithoutChatsInput = {
     id?: string
     name?: string | null
     email: string
@@ -13913,13 +13913,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
-    promts?: PromptUncheckedCreateNestedManyWithoutUserInput
+    prompts?: PromptUncheckedCreateNestedManyWithoutUserInput
     recipes?: RecipeUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutChatInput = {
+  export type UserCreateOrConnectWithoutChatsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutChatInput, UserUncheckedCreateWithoutChatInput>
+    create: XOR<UserCreateWithoutChatsInput, UserUncheckedCreateWithoutChatsInput>
   }
 
   export type MessageUpsertWithWhereUniqueWithoutChatInput = {
@@ -13949,18 +13949,18 @@ export namespace Prisma {
     timestamp?: DateTimeFilter<"Message"> | Date | string
   }
 
-  export type UserUpsertWithoutChatInput = {
-    update: XOR<UserUpdateWithoutChatInput, UserUncheckedUpdateWithoutChatInput>
-    create: XOR<UserCreateWithoutChatInput, UserUncheckedCreateWithoutChatInput>
+  export type UserUpsertWithoutChatsInput = {
+    update: XOR<UserUpdateWithoutChatsInput, UserUncheckedUpdateWithoutChatsInput>
+    create: XOR<UserCreateWithoutChatsInput, UserUncheckedCreateWithoutChatsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutChatInput = {
+  export type UserUpdateToOneWithWhereWithoutChatsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutChatInput, UserUncheckedUpdateWithoutChatInput>
+    data: XOR<UserUpdateWithoutChatsInput, UserUncheckedUpdateWithoutChatsInput>
   }
 
-  export type UserUpdateWithoutChatInput = {
+  export type UserUpdateWithoutChatsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -13971,11 +13971,11 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
-    promts?: PromptUpdateManyWithoutUserNestedInput
+    prompts?: PromptUpdateManyWithoutUserNestedInput
     recipes?: RecipeUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutChatInput = {
+  export type UserUncheckedUpdateWithoutChatsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
@@ -13986,7 +13986,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
-    promts?: PromptUncheckedUpdateManyWithoutUserNestedInput
+    prompts?: PromptUncheckedUpdateManyWithoutUserNestedInput
     recipes?: RecipeUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -13995,7 +13995,7 @@ export namespace Prisma {
     title: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutChatInput
+    user: UserCreateNestedOneWithoutChatsInput
   }
 
   export type ChatUncheckedCreateWithoutMessagesInput = {
@@ -14027,7 +14027,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutChatNestedInput
+    user?: UserUpdateOneRequiredWithoutChatsNestedInput
   }
 
   export type ChatUncheckedUpdateWithoutMessagesInput = {
@@ -14273,7 +14273,7 @@ export namespace Prisma {
     input?: StringFieldUpdateOperationsInput | string
     response?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutPromtsNestedInput
+    user?: UserUpdateOneRequiredWithoutPromptsNestedInput
   }
 
   export type PromptUncheckedUpdateWithoutRecipeInput = {
