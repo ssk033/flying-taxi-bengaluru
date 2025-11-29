@@ -226,8 +226,8 @@ export default function HomePage() {
             <Card className="bg-blue-900/20 border-blue-700">
               <CardContent className="p-4">
                 <p className="text-blue-200 text-sm">
-                  <strong>Note:</strong> This service is available only within Bengaluru city limits. 
-                  Your autonomous flying taxi will arrive at your pickup location shortly after booking.
+                  <strong>Note:</strong> This service is available only within Bengaluru city limits nowhere else. 
+                  Your autonomous flying taxi will arrive at your pickup location shortly after booking.Thanks.
                 </p>
               </CardContent>
             </Card>
