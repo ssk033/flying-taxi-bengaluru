@@ -154,7 +154,7 @@ export default function FlyingTaxiMap({ pickupLocation, destination, onLocationS
         <p className="text-sm font-semibold text-slate-900 dark:text-white mb-2">Instructions:</p>
         <ul className="text-xs text-slate-600 dark:text-slate-300 space-y-1">
           <li>• Click on map to set pickup location</li>
-          <li>• Click again to set destination</li>
+          <li>• Click again to set destination .........</li>
           <li>• Click on map again to reset and start over</li>
         </ul>
       </div>
